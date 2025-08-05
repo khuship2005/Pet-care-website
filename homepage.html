@@ -1,0 +1,569 @@
+<html lang="en"> 
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Care Website</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: rgba(252, 241, 244, 0.616);
+      }
+      #home {
+        background-image: url(home.jpeg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100vh;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background: rgba(115, 109, 111, 0.669);
+        padding: 20px;
+      }   
+      header nav ul {
+        list-style-type: none;
+        margin: 0;
+        margin-right: 30px;
+        padding: 0;
+        text-align: right;
+      }   
+      header nav ul li {
+        display: inline;
+        margin: 20px 10px;
+      }
+      header nav ul li a {
+        color: rgb(49, 41, 36);
+        text-decoration: none;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      /* Fullscreen Section */
+      .fullscreen {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .full-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: none;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #5851507d;
+      }    
+      .content {
+        position: absolute;
+        top: 40%;
+        left: 20px;
+        opacity: 0;
+        font-size: 24px;
+        width: 80%;
+        color: white;
+      }
+      .content h1 {
+        font-size: 48px;
+        margin: 20px 0;
+        color: rgb(77, 62, 62);
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      }
+      .content pre {
+        font-size: 20px;
+        margin: 20px 0;
+        color: rgb(113, 95, 89);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+      /* First Aid Section */
+      #firstAid {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 50px;
+        padding-left: 130px;
+        padding-top: 20px;
+        margin-bottom: 40px;
+      }  
+      .firstAidItem {
+        position: relative;
+        width: 290px;
+        height: 290px;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(36, 34, 34, 0.913);
+      }  
+      .contentWrapper {
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }   
+      .imageBox {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .imageBox h3 {
+        position: absolute;
+        bottom: 0px;
+        color: rgb(75, 64, 64);
+        font-size: 18px;
+        font-weight: bold;
+        background-color: rgba(211, 194, 194, 0.861);
+        padding: 10px 75px;
+        border-radius: 5px;
+      }    
+      .infoBox {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(199, 181, 181, 0.836);
+        padding: 20px;
+        font-size: 14px;
+        color: rgb(75, 64, 64);
+        display: none;
+      }   
+      @media (max-width: 768px) {
+        .firstAidItem {
+          width: 45%;
+        }
+      }
+      @media (max-width: 480px) {
+        .firstAidItem {
+          width: 100%;
+        }
+      }
+      /* Nutrition Section */
+      #nutrition {
+        cursor:pointer;
+      }
+      .nutrition {
+        display: block;
+      }
+      .nutrition h3 {
+        font-size: 25px;
+        margin-left: 10px;
+        font-weight: normal;
+        color: rgb(88, 71, 56);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        cursor: pointer;
+      }
+      .nutrition p {
+        display: none;
+        font-size: 18px;
+        margin-left: 10px;
+        font-weight: normal;
+        color: rgb(127, 103, 84);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      /* Contact Section */
+      #contact {
+        /*background-color: rgb(209, 191, 191);*/
+        padding: 20px;
+        text-align: center;
+      }
+      #contact .contact-info {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        font-size: 1.2em;
+      }
+      #contact .contact-info span {
+        cursor: pointer;
+      }
+      #contact .social-media {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #contact .social-media img {
+        width: 35px;
+        height: 35px;
+        margin: 0 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+      #contact .social-media img:hover {
+        transform: scale(1.1);
+      }
+      .social-id,
+      .contact-id {
+        font-size: 13.5px;
+        color: rgb(35, 27, 22);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+      .heading {
+        font-size: 18px;
+        font-weight: bold;
+        color: rgb(63, 49, 39);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+      .social-icon p {
+        font-size: 18px;
+        margin: 10px 0;
+        color: rgb(63, 49, 39);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+      .social-media span {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      /* Adoption Form Section */
+      .form-container {
+      background-color: rgba(177, 158, 164, 0.164);
+      width: 600px;
+      height: 250px;
+      padding: 50px;
+      border-radius: 2px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      border: 1.3px solid #615555b1;
+    }
+    select {
+      width: 60%;
+      padding: 10px;
+      margin: 10px 2px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #location{
+      width: 60%;
+      padding: 10px;
+      margin: 10px 35px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #name{
+      width: 60%;
+      padding: 10px;
+      margin: 10px 52px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .form-container button {
+      width: 30%;
+      margin-top:20px;
+      margin-left: 35%;
+      padding: 15px 10px;
+      background-color: #5b4d4de4;;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background-color: #826d6dd2;;
+    }
+    .message {
+      color: #625252d7;
+      font-weight: lighter;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .highlight {
+      border-color: #342e29;
+      box-shadow: 0 0 5px rgba(91, 73, 51, 0.5);
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#first">First Aid Guide</a></li>
+          <li><a href="#nutrition">Nutrition & Diet</a></li>
+          <li><a href="#adoption">Adoption</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="home" class="fullscreen">
+      <div class="overlay"></div>
+      <div class="content">
+        <h1>Welcome to Furnation</h1>
+        <pre>
+ A pawfect spot for all things about Pet Care, from pet First-aid 
+ and Nutrition to Adoption. Our mission is to empower pet owners 
+ like you with the knowledge and tools needed to give your Furry 
+ friends the Happiest, Healthiest lives possible!</pre>
+      </div>
+    </section>
+    <div id="first">
+    <h1 style="margin-top:35px;font-size: 35px;margin-left:30px;font-weight: bold;color: rgb(94, 81, 71);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif; text-align: center;">First Aid Guide</h1>
+    <section id="firstaid">
+      <div class="firstAidItem">
+        <div class="contentWrapper">
+          <div class="imageBox" style="background-image: url('fa1.png');">
+            <h3>Bite wound</h3>
+          </div>
+          <div class="infoBox">
+            <p>
+              <b>Step 1: Assess Your Pet</b><br>
+              - Check for other injuries<br>
+              - Look for signs of shock<br>
+              - If concerned, cover wounds, keep warm, and go to the vet<br>
+              <b>Step 2: Assess the Bite Wound</b><br><br>
+              - Bleeding heavily: apply pressure and go to the vet<br>
+              - Skin missing: cover wound and go to the vet<br>
+              <b>Step 3: Flush the Wound</b><br>
+              - For small, non-bleeding wounds, flush with lukewarm, salty water.<br>
+            </p>        
+          </div>
+        </div>
+      </div>
+      <div class="firstAidItem">
+        <div class="contentWrapper">
+          <div class="imageBox" style="background-image: url('fa3.png');">
+            <h3>Burns</h3>
+          </div>
+          <div class="infoBox">
+            <p><b>Step 1: Move to Safety</b><br>
+            - Take your pet away from the burn source.<br>
+            - Wash off chemicals with water if necessary.<br>
+            <b>Step 2: Cool the Burn</b><br>
+            - Use cool water for 10-20 minutes.<br>
+            - Avoid using ice or iced water.<br>
+            <b>Step 3: Seek Veterinary Care</b><br>
+            - Look for symptoms like difficulty breathing.<br>
+            - Call your vet for an emergency appointment.<br>
+            - Follow their guidance for further treatment.<br></p>
+          </div>
+        </div>
+      </div>
+      <div class="firstAidItem">
+        <div class="contentWrapper">
+          <div class="imageBox" style="background-image: url('fa5.png');">
+            <h3>Choking</h3>
+          </div>
+          <div class="infoBox">
+            <p>
+              <b>Step 1: Assess the Situation</b><br>
+              - Determine if your pet is choking or coughing.<br>
+              - Check if they can breathe and if there's obstruction.<br>
+              <b>Step 2: Remove the Obstruction</b><br>
+              - If conscious, use pliers or tweezers to remove the object <br>
+              - If unconscious, sweep your fingers across the back of their throat to remove the object.<br>
+                from their mouth.<br>
+              <b>Step 3: Seek Veterinary Care</b><br>
+              - If unable to remove the object, call your vet for an emergency appointment.<br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <section id="nutrition" style="cursor:pointer; background-color:rgba(221, 208, 212, 0.909); padding: 10px; margin-bottom: 20px;">
+      <h1 style="font-size: 35px;margin-left:30px;font-weight: bold;color: rgb(94, 81, 71);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
+  'Lucida Sans Unicode', Geneva, Verdana, sans-serif; text-align: center ;cursor: default;" class="nutrition">Pet's Nutrition Needs</h1>
+      <div class="nutrition" style="display: none;"> 
+
+          <h3 style="font-size: 25px;margin-left:10px; font-weight:normal; color: rgb(88, 71, 56);
+          font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; cursor: pointer;" class="protein">Protein</h3>
+          <p style="display:none; font-size: 18px;margin-left:10px; font-weight:normal; color: rgb(127, 103, 84);
+          font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="protein">
+              Dogs tend to prefer foods high in protein. And cats are descended from hunters, 
+              so they’re natural carnivores. Protein is important for cell growth, muscle 
+              repair, and general body maintenance. Animal-based proteins have all the essential
+              amino acids pets need, including:<br>
+              - Arginine <br>
+              - Methionine <br>
+              - Histidine <br>
+              - Phenylalanine <br>
+              - Taurine <br>
+          </p>
+
+          <h3 style="font-size: 25px;margin-left:10px; font-weight:normal; color: rgb(88, 71, 56);
+          font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; cursor: pointer;" class="fats">Fats and Energy</h3>
+          <p style="display:none; font-size: 18px;margin-left:10px; font-weight:normal; color: rgb(127, 103, 84);
+          font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="fats">
+              Dietary fats come from animal fats or the oils of a plant seed. They’re the biggest source 
+              of energy in your pet’s diet. Per gram, fats have more than twice as much energy as protein 
+              or carbohydrates. They provide essential fatty acids, which a dog or cat’s body does not make
+              on its own. Fatty acids, such as omega-3s, are needed to:
+              - Keep skin and fur healthy <br>
+              - Produce some types of hormones <br>
+              - Absorb vitamins <br>
+              - Insulate the body <br>
+              - Protect organs <br>
+          </p>
+
+          <h3 style="font-size: 25px;margin-left:10px; font-weight:normal; color: rgb(88, 71, 56);
+          font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; cursor: pointer;" class="carbo">Carbohydrates</h3>
+          <p style="display:none; font-size: 18px;margin-left:10px; font-weight:normal; color: rgb(127, 103, 84);
+          font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="carbo">
+              Carbohydrates deliver energy, help maintain digestive health, and affect reproduction. 
+              Fiber is a type of carbohydrate that affects the bacteria in your pet’s intestine.
+              For your pet to get the biggest benefit from fiber, the fiber should be fermentable. 
+              Fermentable fiber can be found in wheat, rice, or vegetables. High-fiber foods aren’t 
+              good for young cats and dogs that are still growing. Their energy needs are high, so 
+              their diet should have more fat and protein.
+          </p>
+          <button class="removeCarbohydrates" style="color: rgb(254, 247, 246); 
+               padding: 10px; background-color: rgba(155, 125, 134, 0.909);border: none;">Remove Carbohydrates</button>
+      </div>
+  </section>
+
+  <section id="adoption">
+      <h2 style="font-size:28px;text-align:center; font-weight: bold;color: rgba(77, 65, 57, 0.792);
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
+      'Lucida Sans Unicode', Geneva, Verdana, sans-serif; text-align: center;">Adoption Form</h2>
+      <div class="form-container">
+      <form id="adoptionForm">
+        <label for="name" style="font-size: 17px; font-weight:normal; color: rgb(59, 48, 38);
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required><br>
+  
+        <label for="petCategory" style="font-size: 17px; font-weight:normal; color: rgb(59, 48, 38);
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Pet Category:</label>
+        <select id="petCategory" name="petCategory" required>
+          <option value="">Select a category</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+        </select><br>
+  
+        <label for="location" style="font-size: 17px; font-weight:normal; color: rgb(59, 48, 38);
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Location:</label>
+        <input type="text" id="location" name="location" placeholder="Enter your location" required><br>
+  
+        <button type="submit" style="font-size: 16.5px;">Submit</button>
+      </form>
+      <p id="message" class="message"></p>
+    </div>
+  </section>
+
+    <section id="contact" style="margin-top: 30px;background-color: rgba(221, 208, 212, 0.909);">
+      <div class="title">
+      <div class="contact-info">
+        <span id="email" class="contact-item"><p class="contact-id">📧 : info@furnation.com</p></span>
+        <span id="phone" class="contact-item"><p class="contact-id">📱: +1234567890</p></span>
+        <span id="address" class="contact-item"><p class="contact-id">🏠 : 123 Pet Lane</p></span>
+      </div></div>
+      <div class="social-media">
+        <img src="icon1.jpg" id="Facebook" class="social-icon">
+        <img src="icon3.jpg" id="Twitter" class="social-icon">
+        <img src="icon2.jpg" id="Instagram" class="social-icon">
+      </div>
+    </section>
+    <script>
+      /*Methods used:
+      1.ready(), 2.animate(), 3.css(), 4.addClass(),5.click(), 6.after(), 7.prepend(), 8.append(),
+      9.attr(), 10.fadeTo()*/
+
+      $(document).ready(function() {
+        $('.content').animate({
+          top: '25%',
+          opacity: 1
+        }, 1300);
+
+    $('.full-image').css('filter', 'blur(0.01px)');
+    $('.overlay').css('opacity', '0.5');
+
+    $('.social-media img').addClass('social-icon');
+
+    $('#contact').prepend('<p class="heading"> Connect with us: </p>');
+    $('.title').append('<p class="heading"> Follow us for more updates </p>');
+
+    $('#Twitter').click(function() {
+      $(this).after('<span><p class="social-id">@twitfur.com</p></span>');
+    });
+
+    $('#Instagram').click(function() {
+      $(this).after('<span><p class="social-id">@insta_furNation.com</p></span>');
+    });
+
+    $('#Facebook').click(function() {
+      $(this).after('<span><p class="social-id">@fb_furNation.com</p></span>');
+    });
+
+    $('.social-media img').hover(function() {
+      $(this).css('transform', 'scale(1.1)');
+    }, function() {
+      $(this).css('transform', 'scale(1)');
+    });
+
+    $('.contact-item').hover(function() {
+      var currentId = $(this).attr('id');
+      $('.contact-item').not('#' + currentId).fadeTo(300, 0.5); 
+    }, function() {
+      $('.contact-item').fadeTo(300, 1);
+    });
+
+    /* 11.mouseenter(), 12. find(), 13.slideDown(), 14.mouseleave(), 15.slideUp() */
+    $('.firstAidItem').mouseenter(function() {
+      $(this).find('.infoBox').stop(true, true).slideDown(300);
+    }).mouseleave(function() {
+      $(this).find('.infoBox').stop(true, true).slideUp(300);
+    });
+
+    $('a[href^="#"]').click(function(event) {
+      event.preventDefault();
+      var target = $(this).attr('href');
+      $('html, body').animate({
+        scrollTop: $(target).offset().top
+      }, 500);
+    });
+
+    /*16.hide(), 17.show(), 18.fadeIn(), 19.fadeOut() 20.remove(), 21.parent()*/
+    $('.nutrition').prev('h1').click(function() {
+      var nutritionContent = $(this).next('.nutrition');
+      nutritionContent.is(":visible") ? nutritionContent.hide() : nutritionContent.show();
+    });
+
+    $('.removeCarbohydrates').click(function() {
+        $(this).parent().find('.carbo').remove();
+        $(this).remove(); 
+    });
+
+    $(".protein, .fats, .carbo, .water").click(function() {
+      $(".nutrition p").fadeOut(100);
+      $(this).next("p").fadeIn(1000);
+    });
+
+    /*22.submit(), 23.val(), 24.text(), 25.focus(), 26.dblclick()*/
+      $('#adoptionForm').submit(function(event) {
+        event.preventDefault();
+        var name = $('#name').val();
+        var petCategory = $('#petCategory').val();
+        var location = $('#location').val();
+        $('#message').text('Thank you ' + name + '! Your adoption request for a ' + petCategory + ' from ' + location + ' has been submitted!');
+      });
+
+      $('#petCategory').dblclick(function() {
+        alert('You double-clicked the category selection!');
+      });
+      $('#name').dblclick(function() {
+        alert('You double-clicked the name field!');
+      });
+      $('#location').dblclick(function() {
+        alert('You double-clicked the location field!');
+      });
+
+      $('input, select').focus(function() {
+        $(this).css({
+          'border-color': '#937e6a',
+          'box-shadow': '0 0 5px rgba(28, 25, 17, 0.582)'
+        });
+      });
+  });
+</script>
+</body>
+</html>
